@@ -1,0 +1,24 @@
+# Server properties
+server:
+   port: 8080
+   servlet:
+      context-path: /rbs
+
+# Database Settings
+spring:
+   datasource: 
+      url: ${db.url}
+      username: ${db.user}
+      password: ${db.password}
+      hikari:
+         connection-timeout: 60000
+         maximum-pool-size: 5
+   jpa:
+      show-sql: false
+      properties:
+         hibernate:
+            format_sql: true
+   data:
+      jdbc:
+         repositories:
+            enabled: false

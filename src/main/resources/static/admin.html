@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>RBS Repo Attestation</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="http://localhost:8080/rbs/css/bootstrap.css">
+	
+<script src="http://localhost:8080/rbs/js/bootstrap.js"></script>
+<script src="http://localhost:8080/rbs/js/jquery.min.js"></script>
+<script src="http://localhost:8080/rbs/js/rbs.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		var loginData = getloginFromLocalStorage();
+		if (loginData !== '') {
+			$.ajax({
+				url : contextUrl + "/admin/view",
+				type : "get", //send it through get method
+				data : {
+					"loginId" : loginData
+				},
+				dataType : 'json',
+				success : function(response) {
+					appendAttestationData(response);
+				},
+				error : function(xhr) {
+					console.log(xhr);
+				}
+			});
+		} else {
+			pageRedirect('/admin/unauthorized');
+		}
+	});
+
+	function appendAttestationData(records) {
+		$('#attestationDetail tbody').empty();
+
+		// First check if a <tbody> tag exists, add one if not
+		if ($("#attestationDetail tbody").length == 0) {
+			$("#attestationDetail").append("<tbody></tbody>");
+		}
+
+		for ( var index in records) {
+			$("#attestationDetail tbody").append(
+					"<tr>" 
+					+ "<td>" + records[index]['empId'] + "</td>"
+					+ "<td>" + records[index]['email'] + "</td>"
+					+ "<td>" + records[index]['project'] + "</td>"
+					+ "<td>" + records[index]['repositoryUrl'] + "</td>"
+					+ "<td>" + formatDate(records[index]['attestedOn']) + "</td>"
+					+ "</tr>");
+		}
+	}
+
+	function getloginFromLocalStorage() {
+		var stored = localStorage['attestationLoginName'];
+		if (stored) {
+			return JSON.parse(stored);
+		} else
+			return '';
+	}
+	
+	function formatDate(dateTemp) {
+		const date = new Date(dateTemp);
+
+		var hours = date.getHours();
+		var minutes = date.getMinutes();
+		var ampm = hours >= 12 ? 'PM' : 'AM';
+		hours = hours % 12;
+		hours = hours ? hours : 12; // the hour '0' should be '12'
+		minutes = minutes < 10 ? '0' + minutes : minutes;
+		var strTime = (hours < 10 ? '0' + hours : hours)   + ':' + minutes + ' ' + ampm;
+		return daysInWeek[date.getDay()] 
+		       + " , " 
+		       + (date.getDate() < 10 ? '0' + date.getDate() : date.getDate())
+		       + " " 
+		       + monthsInYear[date.getMonth()] 
+		       + " " + date.getFullYear() 
+		       + "  " 
+		       + strTime;
+	}
+</script>
+</head>
+
+<body>
+
+	<div class="jumbotron text-center">
+		<h1>Admin Detail Page</h1>
+		<p>Resize this responsive page to see the effect!</p>
+		<a href="#" onClick="pageRedirect('')">Attestation</a> 
+	</div>
+
+	<div class="row">
+		<div class="col-sm-6">
+			<table id="attestationDetail"
+				class="table table-bordered table-condensed table-striped">
+				<thead>
+					<tr>
+						<th>Employee ID</th>
+						<th>Email</th>
+						<th>Project Name</th>
+						<th>Repository URL</th>
+						<th>Attestation Time</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

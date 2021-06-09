@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>RBS Repo Attestation</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet"
+	href="http://localhost:8080/rbs/css/bootstrap.css">
+	<!-- Custom styles for this template -->
+    <link href="http://localhost:8080/rbs/css/custom/signin.css" rel="stylesheet">
+
+<script src="http://localhost:8080/rbs/js/bootstrap.js"></script>
+<script src="http://localhost:8080/rbs/js/jquery.min.js"></script>
+<script src="http://localhost:8080/rbs/js/rbs.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		clearAdminLogin(); // clear admin login
+	});
+
+	function storeData(loginId) {
+		localStorage['attestationLoginName'] = JSON.stringify(loginId);
+	}
+</script>
+</head>
+
+<body class="text-center">
+
+<!-- 	<div class="jumbotron text-center">
+		<h1>Admin</h1>
+		<p>Resize this responsive page to see the effect!</p>
+		<a href="#" onClick="pageRedirect('')">Attestation</a> 
+	</div> -->
+
+	<!-- <form method="get" action="/rbs/attestation/admin/check">
+		<label for="loginId">First name:</label><br> <input type="text"
+			id="loginId" name="loginId"><br> <input type="submit"
+			onclick="storeData(document.getElementById('loginId').value)"
+			value="Submit">
+	</form> -->
+
+<main>
+  <h1 class="visually-hidden">Headers examples</h1>
+
+  <div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+        <span class="fs-4">Simple header</span>
+      </a>
+
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+      </ul>
+    </header>
+  </div>
+  <div class="form-signin">
+  <form method="get" action="/rbs/attestation/admin/check">
+    <h1 class="h3 mb-3 fw-normal">Admin Login</h1>
+
+    <div class="form-floating">
+      <input type="text" class="form-control" id="loginId" placeholder="Login Id">
+      <label for="loginId">Login Id</label>
+    </div>
+    <br/>
+    <div class="form-floating">
+      <input type="password" class="form-control" id="password" placeholder="Password">
+      <label for="password">Password</label>
+    </div>
+    <br/>
+    <br/>
+
+    <button class="w-100 btn btn-lg btn-primary" type="submit" 
+    onclick="storeData(document.getElementById('loginId').value)">Sign in</button>
+    <p class="mt-5 mb-3 text-muted">&copy; 2021–2022</p>
+  </form>
+  </div>
+  
+</main>
+
+
+    
+  </body>
+</html>

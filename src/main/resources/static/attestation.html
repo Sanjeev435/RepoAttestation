@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>RBS Repo Attestation</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="css/bootstrap.css">
+<script src="js/bootstrap.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/rbs.js"></script>
+<script type="text/javascript">
+
+	var projects = undefined;
+
+	$(document).ready(function() {
+		clearAdminLogin(); // clear admin login
+		$.ajax({
+			url : contextUrl + "/projects",
+			type : "get", //send it through get method
+			dataType : 'json',
+			success : function(response) {
+				projects = response;
+				populateProjectDropdown(response);
+			},
+			error : function(err) {
+				projects = undefined;
+				console.log("Error while getting project details !!", err);
+				alert('Error while getting projects for attestion. Please refresh the page. If problem persist, '
+						+ 'please contact support.');
+			}
+		});
+	});
+
+	function populateProjectDropdown(records) {
+		$("#project").append("<option value=\"None\">-- Select --</option>");
+		for ( var index in records) {
+			$("#project")
+					.append(
+							"<option value=\"" + records[index]['projectId'] + "\" url=\"" + records[index]['projectName'] +"\"> "
+									+ records[index]['projectName']
+									+ "</option>");
+		}
+	}
+
+	function updateRepositoryUrl(projectId) {
+		if (projects) {
+			for ( var index in projects) {
+				if (projectId.toString() === projects[index]['projectId']
+						.toString()) {
+					$('input[name=repositoryUrl]').val(
+							projects[index]['repositoryUrl']);
+					$('input[name=projectId]').val(projectId);
+					break;
+				}
+			}
+		}
+	}
+
+	function submitAttestation() {
+		var formData = $('form').serialize();
+		
+		if(isFieldsValidated()){
+			$.ajax({
+				url : contextUrl + "/save",
+				type : "post", //send it through post method
+				data : formData,
+				dataType : 'text',
+				success : function(response) {
+					alert('Attestion has been successfully saved !!');
+					$('#attestation').trigger("reset");
+				},
+				error : function(err) {
+					console.log("Error while saving attestation data !!", err);
+					alert('Error while saving attestion data. Please re-try. If problem persist, '
+							+ 'please contact support.');
+				}
+			});
+		}
+	}
+	
+	
+	function isFieldsValidated() {
+		var isValidated = true;
+		var validationMessage = '';
+
+		if ($("#projectId").val() === '') {
+			isValidated = false;
+			validationMessage = 'Please select a project. \n';
+		}
+		
+		if ($("#empId").val() === '') {
+			isValidated = false;
+			validationMessage += 'Employee Id is mandatory.\n';
+		}
+
+		if ($("#email").val() === '') {
+			isValidated = false;
+			validationMessage += 'Email is mandatory.\n';
+		}
+
+		if ($("#confirmed").is(":checked") === false) {
+			isValidated = false;
+			validationMessage += 'Please accept the attestion terms.\n';
+		}
+
+		if (!isValidated) {
+			alert(validationMessage);
+		}
+
+		return isValidated;
+	}
+</script>
+</head>
+</head>
+<body>
+
+	<div class="jumbotron text-center">
+		<h1>My First Bootstrap Page</h1>
+		<p>Resize this responsive page to see the effect!</p>
+		 <a href="#" onClick="pageRedirect('/admin/login')">Admin</a> 
+	</div>
+
+	<form id="attestation">
+
+		<label for="project">Project* </label>
+        <select id="project" onChange="updateRepositoryUrl(document.getElementById('project').value)">
+		</select> 
+		
+		<label for="repositoryUrl">Repository URL </label> 
+		<input type="text" id="repositoryUrl" name="repositoryUrl" value="" size="100" disabled required> 
+		
+		<input type="text" id="projectId" name="projectId" value="" size="8" hidden="true">
+			
+		<label for="empId">Employee Id* </label> 
+		<input type="text" id="empId" name="empId" value="" size="20" required>
+			
+		<label for="email">Email* </label> 
+		<input type="text" id="email" name="email" value="" size="100" required>
+		
+		<label for="agreement">Attestation Note </label>
+		<textarea id="agreement" name="agreement" rows="10" cols="75" disabled>
+            At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
+        </textarea>
+
+		<input type="checkbox" id="confirmed" name="confirmed" value=true required>
+		<label for="confirmed"> I agree*</label><br> 
+		
+		 <button type="button" onclick="submitAttestation()">Submit</button> 
+		
+	</form>
+
+</body>
+</html>
