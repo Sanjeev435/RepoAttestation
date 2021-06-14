@@ -1,6 +1,6 @@
-1, 'Test Sample 1', 'github.com/testSample1'
-3, 'Test Sample 3', 'github.com/testSample3'
-2, 'Test Sample 2', 'github.com/testSample2'
-4, 'Test Sample 4', 'github.com/testSample4'
-5, 'Test Sample 5', 'github.com/testSample5'
-6, 'Test Sample 6', 'github.com/testSample6'
+1, Test Sample 1, github.com/testSample1
+3, Test Sample 3, github.com/testSample3
+2, Test Sample 2, github.com/testSample2
+4, Test Sample 4, github.com/testSample4
+5, Test Sample 5, github.com/testSample5
+6, Test Sample 6, github.com/testSample6

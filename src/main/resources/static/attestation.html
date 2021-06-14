@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>RBS Repo Attestation</title>
+<title>RBS Bitbucket Repo Attestation</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
 <link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/custom/attestation.css">
+
 <script src="js/bootstrap.js"></script>
 <script src="js/jquery.min.js"></script>
 <script src="js/rbs.js"></script>
+
 <script type="text/javascript">
 
 	var projects = undefined;
@@ -33,7 +37,7 @@
 	});
 
 	function populateProjectDropdown(records) {
-		$("#project").append("<option value=\"None\">-- Select --</option>");
+		$("#project").append("<option value=\"None\">  Select Project </option>");
 		for ( var index in records) {
 			$("#project")
 					.append(
@@ -84,24 +88,24 @@
 		var isValidated = true;
 		var validationMessage = '';
 
-		if ($("#projectId").val() === '') {
-			isValidated = false;
-			validationMessage = 'Please select a project. \n';
-		}
-		
 		if ($("#empId").val() === '') {
 			isValidated = false;
-			validationMessage += 'Employee Id is mandatory.\n';
+			validationMessage += 'RBS Id is mandatory.\n';
 		}
 
 		if ($("#email").val() === '') {
 			isValidated = false;
 			validationMessage += 'Email is mandatory.\n';
 		}
+		
+		if ($("#projectId").val() === '') {
+			isValidated = false;
+			validationMessage += 'Please select a project. \n';
+		}
 
 		if ($("#confirmed").is(":checked") === false) {
 			isValidated = false;
-			validationMessage += 'Please accept the attestion terms.\n';
+			validationMessage += 'Please accept the attestation terms.\n';
 		}
 
 		if (!isValidated) {
@@ -113,42 +117,92 @@
 </script>
 </head>
 </head>
-<body>
 
-	<div class="jumbotron text-center">
-		<h1>Bitbucket Attestation Portal</h1>
-		<p>Resize this responsive page to see the effect!</p>
-		 <a href="#" onClick="pageRedirect('/admin/login')">Admin</a> 
+
+<body class="bg-light">
+
+	<div class="container pills-header">
+		<div class="row">
+			<div class="col-sm" style="padding-right: 10%;">
+				<img class="d-block mx-auto mb-4 rbs-logo" src="asset/rbs.svg" alt="">
+			</div>
+			<div class="col-sm">
+				<ul class="nav nav-pills link-piils">
+					<li class="nav-item"><a href="#" class="nav-link active"
+						aria-current="page">Attestation</a></li>
+					<li class="nav-item"><a href="#"
+						onClick="pageRedirect('/admin/login')" class="nav-link">Admin</a></li>
+				</ul>
+			</div>
+		</div>
 	</div>
 
-	<form id="attestation">
 
-		<label for="project">Project* </label>
-        <select id="project" onChange="updateRepositoryUrl(document.getElementById('project').value)">
-		</select> 
-		
-		<label for="repositoryUrl">Repository URL </label> 
-		<input type="text" id="repositoryUrl" name="repositoryUrl" value="" size="100" disabled required> 
-		
-		<input type="text" id="projectId" name="projectId" value="" size="8" hidden="true">
-			
-		<label for="empId">Employee Id* </label> 
-		<input type="text" id="empId" name="empId" value="" size="20" required>
-			
-		<label for="email">Email* </label> 
-		<input type="text" id="email" name="email" value="" size="100" required>
-		
-		<label for="agreement">Attestation Note </label>
-		<textarea id="agreement" name="agreement" rows="10" cols="75" disabled>
-            At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
-        </textarea>
+	<div class="container">
+		<div class="py-3 text-center">
+			<h2>Bitbucket Attestation Form</h2>
+		</div>
+		<main>
 
-		<input type="checkbox" id="confirmed" name="confirmed" value=true required>
-		<label for="confirmed"> I agree*</label><br> 
-		
-		 <button type="button" onclick="submitAttestation()">Submit</button> 
-		
-	</form>
+			<div class="col-md-7 col-lg-10" style="padding-left: 15%;">
 
+				<form class="needs-validation" id="attestation" novalidate>
+					<div class="row g-3">
+
+						<div class="col-sm-12">
+							<label for="empId" class="form-label">RBS Id* </label> 
+							<input type="text" class="form-control" id="empId" name="empId"
+								size="20" value="" placeholder="RBS RACF id" required>
+						</div>
+
+						<div class="col-12">
+							<label for="email" class="form-label">Email* </label> 
+							<input type="email" class="form-control" id="email" name="email"
+								size="100" placeholder="you@rbs.com">
+						</div>
+
+
+						<div class="col-sm-12">
+							<label for="project" class="form-label">Project*</label> 
+							<select class="form-control" id="project"
+								onChange="updateRepositoryUrl(document.getElementById('project').value)">
+							</select>
+						</div>
+
+						<div class="col-sm-12">
+							<label for="repositoryUrl" class="form-label">Repository URL* </label>
+							<input type="text" class="form-control" id="repositoryUrl"
+								name="repositoryUrl" size="200" value=""
+								placeholder="Bitbucket Repository url" disabled required>
+						</div>
+
+						<input type="text" id="projectId" name="projectId" value=""
+							size="8" hidden="true">
+
+						<div class="col-12">
+							<label for="agreement" class="form-label">Attestation Note </label>
+							<textarea class="form-control" id="agreement" name="agreement"
+								rows="10" cols="75" disabled>At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
+							</textarea>
+						</div>
+
+						<div class="col-12">
+							<input type="checkbox" id="confirmed" name="confirmed" value=true required>
+						    <label for="confirmed" class="form-label">I agree*</label>
+						</div>
+					</div>
+
+					<hr class="my-4">
+
+					<button class="w-100 btn btn-primary btn-lg" type="button"
+						onclick="submitAttestation()">Submit Attestation</button>
+				</form>
+			</div>
+		</main>
+
+		<footer class="my-5 pt-5 text-muted text-center text-small">
+			<p class="mb-1">&copy; 2021–2022 | RBS</p>
+		</footer>
+	</div>
 </body>
 </html>
