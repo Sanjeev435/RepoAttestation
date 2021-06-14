@@ -7,6 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="stylesheet" href="http://localhost:8080/rbs/css/bootstrap.css">
+<link rel="stylesheet" href="http://localhost:8080/rbs/css/custom/rbs.css">
+<link rel="stylesheet" href="http://localhost:8080/rbs/css/custom/datatable.css">
 	
 <script src="http://localhost:8080/rbs/js/bootstrap.js"></script>
 <script src="http://localhost:8080/rbs/js/jquery.min.js"></script>
@@ -42,17 +44,28 @@
 		if ($("#attestationDetail tbody").length == 0) {
 			$("#attestationDetail").append("<tbody></tbody>");
 		}
+		
+		var html = [];
+		html.push("<tr><td colspan=\"5\"><div class=\"scrollit scrollbar-rare-wind\"><table class=\"table table-hover mytable\">");
+		html.push("<colgroup><col style=\"width:10%\"><col style=\"width:15%\"><col style=\"width:20%\"><col style=\"width:30%\"><col style=\"width:25%\"></colgroup>");
 
+		var count = 1;
 		for ( var index in records) {
-			$("#attestationDetail tbody").append(
-					"<tr>" 
+			var rowStyle = (count % 2 == 0) ? "class=\"table-info\"" : "class=\"table-light\"";
+			html.push(
+					"<tr "+ rowStyle + ">" 
 					+ "<td>" + records[index]['empId'] + "</td>"
 					+ "<td>" + records[index]['email'] + "</td>"
 					+ "<td>" + records[index]['project'] + "</td>"
 					+ "<td>" + records[index]['repositoryUrl'] + "</td>"
 					+ "<td>" + formatDate(records[index]['attestedOn']) + "</td>"
 					+ "</tr>");
+			count++;
 		}
+		
+		html.push("</table></div></td></tr>");
+		$("#attestationDetail tbody").append(html.join(""));
+		
 	}
 
 	function getloginFromLocalStorage() {
@@ -85,25 +98,42 @@
 </script>
 </head>
 
-<body>
+<body class="bg-light">
 
-	<div class="jumbotron text-center">
-		<h1>Admin Detail Page</h1>
-		<p>Resize this responsive page to see the effect!</p>
-		<a href="#" onClick="pageRedirect('')">Attestation</a> 
+	<div class="container pills-header">
+		<div class="row">
+			<div class="col-sm" style="padding-right: 10%;">
+				<img class="d-block mx-auto mb-4 rbs-logo" src="http://localhost:8080/rbs/asset/rbs.svg" alt="">
+			</div>
+			<div class="col-sm">
+				<ul class="nav nav-pills link-piils">
+					<li class="nav-item"><a href="#" class="nav-link active"
+						aria-current="page">Admin</a></li>
+					<li class="nav-item"><a href="#"
+						onClick="pageRedirect('')" class="nav-link">Attestation</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container">
+		<div class="py-3 text-center">
+			<h2>Bitbucket Attestation Details</h2>
+			<hr class="my-4">
+		</div>
 	</div>
 
-	<div class="row">
-		<div class="col-sm-6">
+<div class="container">
+		<div class="col-auto">
 			<table id="attestationDetail"
-				class="table table-bordered table-condensed table-striped">
+				class="table">
 				<thead>
-					<tr>
-						<th>Employee ID</th>
-						<th>Email</th>
-						<th>Project Name</th>
-						<th>Repository URL</th>
-						<th>Attestation Time</th>
+					<tr class="text-center">
+						<th class="row-emp-id">RBS RACF Id</th>
+						<th class="row-email">Email</th>
+						<th class="row-prj-name">Project Name</th>
+						<th class="row-prj-url" style="padding-right: 5%;">Project URL</th>
+						<th class="row-ats-time" style="padding-right: 5%;">Attestation Time</th>
 					</tr>
 				</thead>
 			</table>
