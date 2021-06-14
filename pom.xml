@@ -6,7 +6,7 @@
 
 	<groupId>com.rbs</groupId>
 	<artifactId>RepoAttestation</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>RepoAttestation</name>
 	<description>Bitbucket repository attestation project for RBS</description>
 
