@@ -14,52 +14,80 @@
 <script src="js/rbs.js"></script>
 
 <script type="text/javascript">
+	
+	// Autocomplete for project
+	function getProjectList(inputValue) {
+	    // create one global XHR object 
+	    // so we can abort old requests when a new one is make
+		window.hinterXHR = new XMLHttpRequest();
 
-	var projects = undefined;
+	    // retrieve the datalist element
+	    var projectList = document.getElementById('project_list');
 
-	$(document).ready(function() {
-		clearAdminLogin(); // clear admin login
-		$.ajax({
-			url : contextUrl + "/projects",
-			type : "get", //send it through get method
-			dataType : 'json',
-			success : function(response) {
-				projects = response;
-				populateProjectDropdown(response);
-			},
-			error : function(err) {
-				projects = undefined;
-				console.log("Error while getting project details !!", err);
-				alert('Error while getting projects for attestion. Please refresh the page. If problem persist, '
-						+ 'please contact support.');
-			}
-		});
-	});
+	    // minimum number of characters before we start to generate suggestions
+	    var min_characters = 3;
 
-	function populateProjectDropdown(records) {
-		$("#project").append("<option value=\"None\">  Select Project </option>");
-		for ( var index in records) {
-			$("#project")
-					.append(
-							"<option value=\"" + records[index]['projectId'] + "\" url=\"" + records[index]['projectName'] +"\"> "
-									+ records[index]['projectName']
-									+ "</option>");
-		}
+	    if (inputValue.length < min_characters ) { 
+	        return;
+	    } else {
+
+	        // abort any pending requests
+	        window.hinterXHR.abort();
+
+	        window.hinterXHR.onreadystatechange = function() {
+	            if (this.readyState === 4 && this.status === 200) {
+
+	                // We're expecting a json response so we convert it to an object
+	                var response = JSON.parse( this.responseText ); 
+
+	                // clear any previously loaded options in the datalist
+	                projectList.innerHTML = "";
+
+	                response.forEach(function(item) {
+	                    // Create a new <option> element.
+	                    var option = document.createElement('option');
+	                    option.value = item;
+
+	                    // attach the option to the datalist element
+	                    projectList.appendChild(option);
+	                });
+	            } else if(this.readyState === 4 && this.status !== 200) {
+	            	alert('Error while getting projects for attestion. Please refresh the page. If problem persist, '
+							+ 'please contact support.');
+	            }
+	        };
+
+	        window.hinterXHR.open("GET", contextUrl + "/projects?query=" + inputValue.toUpperCase(), true);
+	        window.hinterXHR.send();
+	    }
 	}
-
-	function updateRepositoryUrl(projectId) {
-		if (projects) {
-			for ( var index in projects) {
-				if (projectId.toString() === projects[index]['projectId']
-						.toString()) {
-					$('input[name=repositoryUrl]').val(
-							projects[index]['repositoryUrl']);
-					$('input[name=projectId]').val(projectId);
-					break;
+	
+	function updateRepositoryUrl(projectName) {
+		if (projectName !== '') {
+			$.ajax({
+				url : contextUrl + "/project",
+				type : "get", //send it through get method
+				data : {
+					"projectName" : projectName
+				},
+				dataType : 'json',
+				success : function(response) {
+					if(response['projectId'] === 0){
+						alert('Please select a valid project from project dropdown');
+					}else{
+						$('input[name=repositoryUrl]').val(
+								response['repositoryUrl']);
+						$('input[name=projectId]').val(response['projectId']);
+					}
+				},
+				error : function(xhr) {
+					console.log(xhr);
+					alert('Error while getting project reporitory URL. Please re-try. If problem persist, '
+							+ 'please contact support.');
 				}
-			}
+			});
 		}
-	}
+	};
 
 	function submitAttestation() {
 		var formData = $('form').serialize();
@@ -82,7 +110,6 @@
 			});
 		}
 	}
-	
 	
 	function isFieldsValidated() {
 		var isValidated = true;
@@ -116,7 +143,6 @@
 	}
 </script>
 </head>
-</head>
 
 
 <body class="bg-light">
@@ -132,6 +158,8 @@
 						aria-current="page">Attestation</a></li>
 					<li class="nav-item"><a href="#"
 						onClick="pageRedirect('/admin/login')" class="nav-link">Admin</a></li>
+					<li class="nav-item"><a href="#"
+						onClick="pageRedirect('/user/validation')" class="nav-link">User Validation</a></li>
 				</ul>
 			</div>
 		</div>
@@ -160,15 +188,15 @@
 							<input type="email" class="form-control" id="email" name="email"
 								size="100" placeholder="you@rbs.com">
 						</div>
-
-
+						
 						<div class="col-sm-12">
 							<label for="project" class="form-label">Project*</label> 
-							<select class="form-control" id="project"
-								onChange="updateRepositoryUrl(document.getElementById('project').value)">
-							</select>
+							<input type="text" class="form-control" id="project" name="project"
+								size="200" placeholder="Project Name" list="project_list" 
+								onkeyup="getProjectList(this.value);" onblur="updateRepositoryUrl(document.getElementById('project').value)" required>
+							<datalist id="project_list"></datalist>
 						</div>
-
+						
 						<div class="col-sm-12">
 							<label for="repositoryUrl" class="form-label">Repository URL* </label>
 							<input type="text" class="form-control" id="repositoryUrl"

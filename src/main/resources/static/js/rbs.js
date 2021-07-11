@@ -31,3 +31,23 @@ function clearAdminLogin() {
 function pageRedirect(relativePath) {
  window.location.replace(contextUrl + relativePath);
 } 
+
+function formatDate(dateTemp) {
+		const date = new Date(dateTemp);
+
+		var hours = date.getHours();
+		var minutes = date.getMinutes();
+		var ampm = hours >= 12 ? 'PM' : 'AM';
+		hours = hours % 12;
+		hours = hours ? hours : 12; // the hour '0' should be '12'
+		minutes = minutes < 10 ? '0' + minutes : minutes;
+		var strTime = (hours < 10 ? '0' + hours : hours)   + ':' + minutes + ' ' + ampm;
+		return daysInWeek[date.getDay()] 
+		       + " , " 
+		       + (date.getDate() < 10 ? '0' + date.getDate() : date.getDate())
+		       + " " 
+		       + monthsInYear[date.getMonth()] 
+		       + " " + date.getFullYear() 
+		       + "  " 
+		       + strTime;
+	}

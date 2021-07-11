@@ -7,8 +7,10 @@
 
 <link rel="stylesheet"
 	href="http://localhost:8080/rbs/css/bootstrap.css">
-	<!-- Custom styles for this template -->
-    <link href="http://localhost:8080/rbs/css/custom/signin.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<!-- <link href="http://localhost:8080/rbs/css/custom/signin.css" rel="stylesheet"> -->
+<link href="http://localhost:8080/rbs/css/custom/rbs.css"
+	rel="stylesheet">
 
 <script src="http://localhost:8080/rbs/js/bootstrap.js"></script>
 <script src="http://localhost:8080/rbs/js/jquery.min.js"></script>
@@ -25,61 +27,64 @@
 </script>
 </head>
 
-<body class="text-center">
+<body class="bg-light">
 
-<!-- 	<div class="jumbotron text-center">
-		<h1>Admin</h1>
-		<p>Resize this responsive page to see the effect!</p>
-		<a href="#" onClick="pageRedirect('')">Attestation</a> 
-	</div> -->
+	<div class="container pills-header">
+		<div class="row">
+			<div class="col-sm" style="padding-right: 10%;">
+				<img class="d-block mx-auto mb-4 rbs-logo"
+					src="http://localhost:8080/rbs/asset/rbs.svg" alt="">
+			</div>
+			<div class="col-sm">
+				<ul class="nav nav-pills link-piils">
+					<li class="nav-item"><a href="#" class="nav-link active"
+						aria-current="page">Admin</a></li>
+					<li class="nav-item"><a href="#" onClick="pageRedirect('')"
+						class="nav-link">Attestation</a></li>
+					<li class="nav-item"><a href="#"
+						onClick="pageRedirect('/user/validation')" class="nav-link">User
+							Validation</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
 
-	<!-- <form method="get" action="/rbs/attestation/admin/check">
-		<label for="loginId">First name:</label><br> <input type="text"
-			id="loginId" name="loginId"><br> <input type="submit"
-			onclick="storeData(document.getElementById('loginId').value)"
-			value="Submit">
-	</form> -->
+	<div class="container" style="padding-top: 4em;">
+		<div class="py-4 text-center">
+			<h2>Admin Login</h2>
+		</div>
+		<main>
+			<div class="col-md-7 col-lg-10 d-flex justify-content-center"
+				style="padding-left: 15%;">
 
-<main>
-  <!-- <h1 class="visually-hidden">Headers examples</h1> -->
+				<form method="get" action="/rbs/attestation/admin/check"
+					class="needs-validation" id="attestation" novalidate
+					style="width: 300px;">
+					<div class="g-4">
+						<div class="form-floating">
+							<input type="email" class="form-control" id="loginId"
+								name="loginId" placeholder="name@example.com"> <label
+								for="loginId">RBS RACF Id</label>
+						</div>
+						<div class="form-floating">
+							<input type="password" class="form-control" id="password"
+								name="password" placeholder="Password"> <label
+								for="password">Password</label>
+						</div>
+					</div>
 
-  <div>
-    <header>
-     <!-- <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-        <svg class="bi me-2" width="100" height="32"><use xlink:href="#bootstrap"/></svg>
-        <span class="fs-4">Simple header</span>
-      </a> -->
-      <ul class="nav nav-pills">
-        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Admin</a></li>
-        <li class="nav-item"><a href="#" onClick="pageRedirect('')" class="nav-link">Attestation</a></li>
-      </ul>
-    </header>
-  </div>
-  <div class="form-signin">
-  <form method="get" action="/rbs/attestation/admin/check">
-    <h1 class="h3 mb-3 fw-normal">Admin Login</h1>
+					<hr class="my-4">
 
-    <div class="form-floating">
-      <input type="text" class="form-control" id="loginId" name="loginId" placeholder="Login Id">
-      <label for="loginId">Login Id</label>
-    </div>
-    <br/>
-    <div class="form-floating">
-      <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-      <label for="password">Password</label>
-    </div>
-    <br/>
-    <br/>
+					<button class="w-100 btn btn-lg btn-primary" type="submit"
+						onclick="storeData(document.getElementById('loginId').value)">Sign
+						in</button>
+				</form>
+			</div>
+		</main>
 
-    <button class="w-100 btn btn-lg btn-primary" type="submit" 
-    onclick="storeData(document.getElementById('loginId').value)">Sign in</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2021–2022</p>
-  </form>
-  </div>
-  
-</main>
-
-
-    
-  </body>
+		<footer class="my-5 pt-5 text-muted text-center text-small">
+			<p class="mb-1">&copy; 2021–2022 | RBS</p>
+		</footer>
+	</div>
+</body>
 </html>

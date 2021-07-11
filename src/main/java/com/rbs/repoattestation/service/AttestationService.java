@@ -69,7 +69,7 @@ public class AttestationService {
 		}
 	}
 
-	private List<Attestation> getUserAttestationDetails(String empId) {
+	public List<Attestation> getUserAttestationDetails(String empId) {
 		log.info("Getting attestation details for user : " + empId);
 		return getAttestations().stream().filter(data -> data.getEmpID().equals(empId)).collect(Collectors.toList());
 	}

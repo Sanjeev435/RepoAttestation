@@ -2,7 +2,10 @@ package com.rbs.repoattestation.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.rbs.repoattestation.csv.CsvReader;
@@ -35,5 +38,32 @@ public class ProjectService {
 	public Project getProjectById(Integer projectId) {
 		return ProjectService.projects.stream().filter(data -> data.getProjectId().equals(projectId)).findFirst()
 				.orElse(new Project());
+	}
+
+	public List<String> getProjects(String query) {
+		List<String> projects = new ArrayList<>();
+		ProjectService.projects.forEach(data -> {
+			if(data.getProjectName().toUpperCase().contains(query)) {
+				projects.add(data.getProjectName());
+			}
+		});
+		log.info("Retrived projects Size for query " + "'" +query +"'" + " : " + projects.size());
+		return projects;
+	}
+
+	public ProjectDto getProject(String projectName) {
+		List<Project> projectTemp = ProjectService.projects.stream()
+				.filter(data -> data.getProjectName().equalsIgnoreCase(projectName)).collect(Collectors.toList());
+
+		if (CollectionUtils.isEmpty(projectTemp) || projectTemp.size() > 1) {
+			return ProjectDto.builder().projectId(0).projectName(StringUtils.EMPTY).repositoryUrl(StringUtils.EMPTY)
+					.build();
+		} else {
+			return ProjectDto.builder()
+					.projectId(projectTemp.get(0).getProjectId())
+					.projectName(projectTemp.get(0).getProjectName())
+					.repositoryUrl(projectTemp.get(0).getRepositoryUrl())
+					.build();
+		}
 	}
 }
