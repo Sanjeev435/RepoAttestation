@@ -9,6 +9,12 @@ import com.rbs.repoattestation.exception.CsvReaderException;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ * Generic class to read data from CSV file
+ *
+ * @param <T>
+ */
 @Slf4j
 public class CsvReader<T> {
 
@@ -20,6 +26,9 @@ public class CsvReader<T> {
 		this.fileName = CsvUtil.getFileName(this.csvEntity);
 	}
 
+	/**
+	 * Read data from CSV file
+	 */
 	public List<T> read() {
 		try (FileReader fr = new FileReader(this.fileName)) {
 			List<T> data = new CsvToBeanBuilder<T>(fr).withSeparator(CsvUtil.DEFAULT_SEPARATOR)

@@ -25,6 +25,10 @@ public class ProjectService {
 		projects = reader.read();
 	}
 
+	/**
+	 * Read all projects from csv
+	 * @return List<ProjectDto>
+	 */
 	public List<ProjectDto> getProjects() {
 		List<ProjectDto> projects = new ArrayList<>();
 		ProjectService.projects.forEach(data -> {
@@ -35,11 +39,21 @@ public class ProjectService {
 		return projects;
 	}
 
+	/**
+	 * Get project details of project associated with the projectId
+	 * @param projectId
+	 * @return Project
+	 */
 	public Project getProjectById(Integer projectId) {
 		return ProjectService.projects.stream().filter(data -> data.getProjectId().equals(projectId)).findFirst()
 				.orElse(new Project());
 	}
 
+	/**
+	 * Get all project contains the queried string in project name
+	 * @param query
+	 * @return List<String>
+	 */
 	public List<String> getProjects(String query) {
 		List<String> projects = new ArrayList<>();
 		ProjectService.projects.forEach(data -> {
@@ -51,6 +65,11 @@ public class ProjectService {
 		return projects;
 	}
 
+	/**
+	 * Get Project details for the provided project name
+	 * @param projectName
+	 * @return ProjectDto
+	 */
 	public ProjectDto getProject(String projectName) {
 		List<Project> projectTemp = ProjectService.projects.stream()
 				.filter(data -> data.getProjectName().equalsIgnoreCase(projectName)).collect(Collectors.toList());

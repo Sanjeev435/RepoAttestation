@@ -23,16 +23,30 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 
+
+	/**
+	 * Get mapping to get admin login screen
+	 * @return admin page
+	 */
 	@GetMapping("login")
 	public String login() {
 		return "/adminLogin.html";
 	}
 	
+	/**
+	 * Get unauthorized page in case of invalid login for admin
+	 * @return unAuthorizedAdminAccess page
+	 */
 	@GetMapping("unauthorized")
 	public String unauthorized() {
 		return "/unAuthorizedAdminAccess.html";
 	}
 
+	/**
+	 * @param loginId : admin user name
+	 * @param password : admin password
+	 * @return admin page to show all attestation details
+	 */
 	@GetMapping("check")
 	public String checkForAdmin(@PathParam("loginId") String loginId, @PathParam("password") String password) {
 		log.info(password);
@@ -46,6 +60,11 @@ public class AdminController {
 
 	}
 	
+	/**
+	 * Get all the attestation details for admin view
+	 * @param loginId : admin login id
+	 * @return List<AdminDto> : list of all attestation details
+	 */
 	@ResponseBody
 	@GetMapping("view")
 	public List<AdminDto> getAttestedData(@PathParam("loginId") String loginId) {

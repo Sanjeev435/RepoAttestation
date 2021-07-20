@@ -26,6 +26,11 @@ public class AttestationService {
 	@Autowired
 	private ProjectService projectService;
 
+	/**
+	 * Read all attestation from csv file
+	 * 
+	 * @return List<Attestation>
+	 */
 	public List<Attestation> getAttestations() {
 		List<Attestation> attestations = new ArrayList<>();
 
@@ -37,6 +42,11 @@ public class AttestationService {
 		return attestations;
 	}
 
+	/**
+	 * Save attestation data
+	 * 
+	 * @param attestation
+	 */
 	public void save(AttestationDto attestation) {
 
 		log.info("Attestation save initialized for employee id : " + attestation.getEmpId());
@@ -69,6 +79,12 @@ public class AttestationService {
 		}
 	}
 
+	/**
+	 * Get attestation details for the provided user
+	 * 
+	 * @param empId
+	 * @return List<Attestation>
+	 */
 	public List<Attestation> getUserAttestationDetails(String empId) {
 		log.info("Getting attestation details for user : " + empId);
 		return getAttestations().stream().filter(data -> data.getEmpID().equals(empId)).collect(Collectors.toList());

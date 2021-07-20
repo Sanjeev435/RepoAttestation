@@ -27,16 +27,29 @@ public class AttestationController {
 	@Autowired
 	private AttestationService attestationService;
 	
+	/**
+	 * Get landing page for attestation
+	 * @return attestation page
+	 */
 	@GetMapping
 	public String getIndexPage() {
 		return "attestation.html";
 	}
 	
+	/**
+	 * Get user validation page to search validation
+	 * @return userValidation page
+	 */
 	@GetMapping("/user/validation")
 	public String login() {
 		return "/userValidation.html";
 	}
 	
+	/**
+	 * Save attestation data filled by user
+	 * @param attestationData
+	 * @return Status Code : 200
+	 */
 	@ResponseBody
 	@PostMapping("/save")
 	public ResponseEntity<String> submitAttestaion(AttestationDto attestationData) {
@@ -44,18 +57,33 @@ public class AttestationController {
 		return ResponseEntity.ok("success");
 	}
 	
+	/**
+	 * Get all the project name which contains the queried string
+	 * @param query : query string to filter out project data
+	 * @return List<String> : List of projects
+	 */
 	@ResponseBody
 	@GetMapping("/projects")
 	public List<String> getProjects(@RequestParam String query) {
 		return projectService.getProjects(query);
 	}
 	
+	/**
+	 * Get project details for the specified project name
+	 * @param projectName : Name of project
+	 * @return ProjectDto : project details
+	 */
 	@ResponseBody
 	@GetMapping("/project")
 	public ProjectDto getProject(@RequestParam String projectName) {
 		return projectService.getProject(projectName);
 	}
 	
+	/**
+	 * Get all the attestation details of projects which has been attested by the specified user
+	 * @param racfId : User RBS Racf ID
+	 * @return List<Attestation> : List of attestation data
+	 */
 	@ResponseBody
 	@GetMapping("/view")
 	public List<Attestation> getUserAttestations(@RequestParam String racfId) {

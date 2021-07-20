@@ -19,6 +19,11 @@ public class AdminService {
 	@Autowired
 	private AttestationService attestationService;
 
+	/**
+	 * Get all details of an admin user
+	 * @param user
+	 * @return
+	 */
 	public Admin getAdminUser(String user) {
 		log.info("Getting admin details for user : " + user);
 
@@ -27,6 +32,10 @@ public class AdminService {
 				.orElse(new Admin());
 	}
 
+	/**
+	 * Get all attestation records
+	 * @return List<AdminDto>
+	 */
 	public List<AdminDto> getAllAttestations() {
 		log.info("Getting All Attestation Data");
 

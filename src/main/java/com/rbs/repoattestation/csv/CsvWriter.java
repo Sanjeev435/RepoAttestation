@@ -14,6 +14,12 @@ import com.rbs.repoattestation.exception.CsvWriterException;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ * Generic class to write data into CSV file
+ *
+ * @param <T>
+ */
 @Slf4j
 public class CsvWriter<T> {
 	
@@ -25,6 +31,10 @@ public class CsvWriter<T> {
 		this.fileName = CsvUtil.getFileName(this.csvEntity);
 	}
 	
+	/**
+	 * Write data to CSV file
+	 * @param data
+	 */
 	public void write(T data) {
 		//BufferedWriter writer give better performance
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.fileName, true))) {
