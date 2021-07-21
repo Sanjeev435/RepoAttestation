@@ -15,6 +15,10 @@
 <script src="http://localhost:8080/rbs/js/rbs.js"></script>
 
 <script type="text/javascript">
+
+   /**
+    * Invoke get data fro admin screen on page load
+    */
 	$(document).ready(function() {
 		var loginData = getloginFromLocalStorage();
 		if (loginData !== '') {
@@ -37,6 +41,10 @@
 		}
 	});
 
+	
+   /**
+	 * Set data for details table in admin page
+	 */
 	function appendAttestationData(records) {
 		$('#attestationDetail tbody').empty();
 
@@ -68,6 +76,9 @@
 		
 	}
 
+   /**
+	 * Get admin login id from local storage
+	 */
 	function getloginFromLocalStorage() {
 		var stored = localStorage['attestationLoginName'];
 		if (stored) {

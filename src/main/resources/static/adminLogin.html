@@ -17,10 +17,16 @@
 <script src="http://localhost:8080/rbs/js/rbs.js"></script>
 
 <script type="text/javascript">
+  /**
+    * Clear admin login screen
+    */
 	$(document).ready(function() {
 		clearAdminLogin(); // clear admin login
 	});
 
+   /**
+	 * Store admin ID in local storage
+	 */
 	function storeData(loginId) {
 		localStorage['attestationLoginName'] = JSON.stringify(loginId);
 	}

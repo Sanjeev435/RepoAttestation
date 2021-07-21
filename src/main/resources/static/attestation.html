@@ -15,7 +15,9 @@
 
 <script type="text/javascript">
 	
-	// Autocomplete for project
+   /**
+     * Autocomplete for project dropdown
+     */ 
 	function getProjectList(inputValue) {
 	    // create one global XHR object 
 	    // so we can abort old requests when a new one is make
@@ -62,6 +64,9 @@
 	    }
 	}
 	
+   /**
+     * Get repository url for the selected project name and set it in repository input box
+     */ 
 	function updateRepositoryUrl(projectName) {
 		if (projectName !== '') {
 			$.ajax({
@@ -89,6 +94,9 @@
 		}
 	};
 
+   /**
+     * Submit attestation data
+     */ 
 	function submitAttestation() {
 		var formData = $('form').serialize();
 		
@@ -111,6 +119,9 @@
 		}
 	}
 	
+   /**
+     * Check if all mandatory fields filled, show alert in case if missed any
+     */ 
 	function isFieldsValidated() {
 		var isValidated = true;
 		var validationMessage = '';

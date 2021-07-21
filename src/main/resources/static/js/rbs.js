@@ -32,6 +32,9 @@ function pageRedirect(relativePath) {
  window.location.replace(contextUrl + relativePath);
 } 
 
+/**
+  * Format date in DD-MM-YYYY HH:MM AM/PM
+  */
 function formatDate(dateTemp) {
 		const date = new Date(dateTemp);
 
